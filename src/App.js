@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [advice, setAdvice] = useState("");
   const [count, setCount] = useState(0);
+
+  useEffect(function () {
+    getAdvice();
+  }, []);
 
   async function getAdvice() {
     const res = await fetch("https://api.adviceslip.com/advice");
@@ -21,10 +25,16 @@ export default function App() {
         >
           Get Advice
         </button>
-        <p className="mt-4 text-gray-600">
-          You have read <strong className="text-blue-500">{count}</strong> pieces of advice.
-        </p>
+        <Message count={count}/>
       </div>
     </div>
   );
+}
+
+function Message (props) {
+  return (
+     <p className="mt-4 text-gray-600">
+          You have read <strong className="text-blue-500">{props.count}</strong> pieces of advice.
+        </p>
+  )
 }
